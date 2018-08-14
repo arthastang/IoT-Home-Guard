@@ -5,21 +5,21 @@ When openwrt is installed and configured, you will need to place the IoT-Home-Gu
 
 You can use the following command to detect whether the target IoT device is implanted with a Trojan:
 
-  ./IoT-Home-Guard.py
+    ./IoT-Home-Guard.py
 
 The complete inspection process will last 10-15 minutes. If you want to get results faster, you can use the following command:
 
-  ./IoT-Home-Guard.py fast_mode
+    ./IoT-Home-Guard.py fast_mode
 
 When the program finishes running, it will return the following results:
 
-  [Result] WARINING: Trojan has been discovered.
-  [Trojan Data]: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    [Result] WARINING: Trojan has been discovered.
+    [Trojan Data]: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 or:
 
-  [Result] No security issues.
+    [Result] No security issues.
   
 or:
 
-  [Result] I don't know this device, you can send this packet to my gmail.
+    [Result] I don't know this device, you can send this packet to my gmail.
