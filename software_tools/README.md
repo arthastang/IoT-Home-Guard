@@ -22,4 +22,4 @@ or:
   
 or:
 
-    [Result] I don't know this device, you can send this packet to my gmail.
+    [Result] I don't know this device, you can send this packet to luodalongde#gmail.com
