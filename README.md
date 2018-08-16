@@ -28,7 +28,22 @@ Netease Youdao smart translator | GTA07 |
 
 ### Procedure of IoT-Home-Guard
 
-
+                                               ___________________       ___________________
+                                              |                   |     |                   |
+                                              | data_flow_catcher |<----| devices connected |
+                                              |___________________|     |___________________|
+                                                   ¦
+                                                   ¦
+     ____________________________              ____↓________________  
+    |                            |            |                     | 
+    | device_fingerprint_databse |<---------> | flow_analyze_engine |
+    |____________________________|       ¦    |_____________________|        
+                                         ¦         ↑   
+                                         ¦         ¦
+     __________________________________  ¦     ____↓_______              _________________
+    |                                  | ¦    |            |            |                 |
+    | 360 threat intelligence database |<-    | web_server |<-----------| user interfaces |
+    |__________________________________|      |____________|            |_________________|            
 
 
 ### Tutorials of IoT-Home-Guard
