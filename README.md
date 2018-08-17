@@ -23,7 +23,7 @@ Netease Youdao smart translator | GTA07 |
 1. AP module and Data flow catcher: Catch network traffic.
 2. Traffic analying engine: Extract characteristics from network traffic and compare them with device fingerprint database.
 3. Device fingerprint database: Normal network behaviors of each devices, based on whitelist. Call APIs of 360 threat intelligence database ([https://ti.360.net/](https://ti.360.net/)).
-4. Web server: Written in Flask. Go to [http://localhost:6666](http://localhost:6666) after system set up.
+4. Web server: There may be a web server in the second generation. 
 
 ## Procedure of IoT-Home-Guard
 
