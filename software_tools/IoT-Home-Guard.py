@@ -1,5 +1,5 @@
-from .data_flow_catcher import data_flow_catcher
-from .traffic_analysis_engine import traffic_analysis_engine
+from .data_flow_catcher import DataFlow_catcher
+from .traffic_analysis_engine import TrafficAnalysisEngine
 import time
 
 
