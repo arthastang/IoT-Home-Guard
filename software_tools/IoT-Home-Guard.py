@@ -1,4 +1,4 @@
-from .data_flow_catcher import DataFlow_catcher
+from .data_flow_catcher import DataFlowCatcher
 from .traffic_analysis_engine import TrafficAnalysisEngine
 import time
 
