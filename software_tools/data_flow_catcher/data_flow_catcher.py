@@ -1,14 +1,11 @@
 """
 Data flow catcher class defination
 """
-import pyshark
-
+import os
 
 class DataFlowCatcher(object):
     def __init__(self, current_time):
-        self.filename = current_time
-        return
+        self.filename = str(current_time) + '.pcap'
 
     def run(self):
-        #call pyshark api save as self.filename
-        return 
+        os.system("sudo tcpdump -i wlx00117f139169 -G 600 -w "+ self.filename)

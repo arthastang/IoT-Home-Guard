@@ -6,6 +6,18 @@ If you find that your smart device in your home has strange behavior, or if you 
 
 In July 2018 I had completed the first version of the software and hardware. I will complete the second version by October 2018, when the user experience and the number of identifiable devices will be greatly improved.
 
+## Proof of principle
+
+Our approach is based on the detection of malicious network traffic. A device implanted malwares will communicate with remote server, trigger a remote shell or send audios/videos to server.
+
+The chart below shows the network traffic of a device implanted malwares.
+Red line : traffic between devices and a remote server.
+Green line : normal traffic of devices.
+Black line : Sum of TCP traffic.
+
+	![mi-listen&wakeup][./mi-listen&wakeup.png]
+
+
 ## Supported Devices
 
 Device Name | Product Version |
