@@ -15,7 +15,7 @@ Red line : traffic between devices and a remote server.
 Green line : normal traffic of devices.
 Black line : Sum of TCP traffic.
 
-	![mi-listen&wakeup][./mi-listen&wakeup.png]
+	![](mi-listen&wakeup.png)
 
 
 ## Supported Devices
