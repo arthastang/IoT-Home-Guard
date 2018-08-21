@@ -8,8 +8,8 @@ import pyshark
 class TrafficAnalysisEngine(object):
  	
 	def __init__(self, pcap_file, device_name):
-		self.filename = pcap_file + ".pcapng"
-		self.devicename = device_name + ".yaml"
+		self.filename = 'pcaps/' + pcap_file + ".pcap"
+		self.devicename = 'device_fingerprint_database/' + device_name + ".yaml"
 		f = open(self.devicename)
 		self.rules = yaml.load(f)
 
@@ -101,9 +101,5 @@ class TrafficAnalysisEngine(object):
 				print("[Result] No security issues.")
 			else:
 				print("[Result] WARINING: Trojan has been discovered.")
-
-
-
-
 
 
