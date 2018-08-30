@@ -55,7 +55,9 @@ Netease Youdao smart translator | GTA07 |
     | 360 threat intelligence database |<-    | web_server |<-----------| user interfaces |
     |__________________________________|      |____________|            |_________________|
 
+The tool works as an Access Point, connected manually by devices under test, sends network traffic to traffic analyzing engine for characteristic extraction. Traffic analyzing engine compares characteristics with entries in device fingerprint database to recognize device type and suspicious network connection. Device fingerprint database is a collect of normal behaviors of each device based on whitelist. Additionally, characteristics will be searched on threat intelligence database of Qihoo 360 to identify malicious behaviors. A web server is set up as user interfaces.
+
 ## Tutorials of IoT-Home-Guard
 
-For a hardware tool, see IoT-Home-Guard/Hardware_tool/README.md
+For a hardware tool, see IoT-Home-Guard/Hardware_tool/README.md  
 For a software tool, see IoT-Home-Guard/Software_tool/README.md
