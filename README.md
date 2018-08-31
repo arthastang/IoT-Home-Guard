@@ -1,19 +1,24 @@
+![py3.6](https://img.shields.io/badge/python-3.6-blue.svg)
+![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
+
 # IoT-Home-Guard
 
-IoT-Home-Guard is a project to help people discover malware in home smart devices. It contains a software tool and a hardware tool.
+IoT-Home-Guard is a project to help people discover malware in smart home devices.
 
-If you find that your smart device in your home has strange behavior, or if you only suspect that a device has been implanted with a Trojan, you can use these tools to confirm.
+For users the project can help to detect compromised smart home devices. For security researchers it is also useful in network analysis and malicious hehaviors detection. 
 
-In July 2018 I had completed the first version of the software and hardware. I will complete the second version by October 2018, when the user experience and the number of identifiable devices will be greatly improved.
+In July 2018 we had completed the first version. We will complete the second version by October 2018 with improvement of user experience and increased number of identifiable devices.
+
+The first generation is a hardware device based on Raspberry Pi with wireless network interface controllers. We will customize new hardware in the second generation. Software part is available in our Github. The system can be set up with software part in laptops after essential environment configuration. 
 
 ## Proof of principle
 
 Our approach is based on the detection of malicious network traffic. A device implanted malwares will communicate with remote server, trigger a remote shell or send audios/videos to server.
 
-The chart below shows the network traffic of a device implanted malwares.
-Red line : traffic between devices and a remote server.
-Green line : normal traffic of devices.
-Black line : Sum of TCP traffic.
+The chart below shows the network traffic of a device which implanted snooping malwares.  
+Red line : traffic between devices and a remote spy server.  
+Green line : normal traffic of devices.  
+Black line : Sum of TCP traffic.  
 
 ![mi-listen&wakeup](resources/mi-listen&wakeup.png)
 
