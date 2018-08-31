@@ -4,6 +4,7 @@ Traffic analysis engine class defination
 import yaml
 import sys
 import pyshark
+import re
 
 class TrafficAnalysisEngine(object):
  	
@@ -12,6 +13,25 @@ class TrafficAnalysisEngine(object):
 		self.devicename = 'device_fingerprint_database/' + device_name + ".yaml"
 		f = open(self.devicename)
 		self.rules = yaml.load(f)
+                self.device_ip = '192.168.0.148'
+		self.DNS_server_ip = ['4.2.2.2','8.8.8.8']
+		self.domain_ip = []
+		self.new_ip = {}
+
+		cap = pyshark.FileCapture(self.filename,only_summaries=True)
+		for p in cap:
+			if p.protocol == "DNS":
+				if "response" in p.info:
+					result = re.findall(r"\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b", p.info)
+					if result:
+						for r in result:
+							if r not in self.domain_ip:
+								self.domain_ip.append(r)
+
+			# if p.protocol == "ARP":
+			# 	if str(self.rules['packet'][0]['MAC']) in p.info:  #xiaoaitongxue MAC address
+			# 		self.device_ip = p.info.split(" ")[0]
+
 
 	def ARP_analyze(self,packet):   
 		if (packet.source == self.rules['packet'][0]['MAC']) or (packet.destination == self.rules['packet'][0]['MAC']):
@@ -27,37 +47,37 @@ class TrafficAnalysisEngine(object):
 		else:
 			return False
 
-	def TCP_analyze(self,packet):
-		for domain_IP in self.rules['domain']:
-			if(packet.source == self.rules['device'][0]) and (packet.destination == domain_IP) :#and (packet.info.split(' ')[2] == self.rules['packet'][3]['port']):
+        def TCP_analyze(self,packet):
+		for domain_IP in self.domain_ip:
+			if(packet.source == self.device_ip) and (packet.destination == domain_IP) :
 				return True
-			elif(packet.source == domain_IP) and (packet.destination == self.rules['device'][0]) :#and (packet.info.split(' ')[0] == self.rules['packet'][3]['port']):
+			if(packet.source == domain_IP) and (packet.destination == self.device_ip) :
 				return True
-		return False    
 
-	def DNS_analyze(self,packet):  
-		for DNS_IP in self.rules['DNS Server']:
-			if(packet.source == self.rules['device'][0]) and (packet.destination == DNS_IP) :#and (packet.info.split(' ')[2] == self.rules['packet'][4]['port']):
-				return True
-			elif(packet.source == DNS_IP) and (packet.destination == self.rules['device'][0]) :#and (packet.info.split(' ')[0] == self.rules['packet'][4]['port']):
-				return True
-		return False
-       
-	def ICMP_analyze(self,packet):  
-		for domain_IP in self.rules['domain']:
-			for DNS_IP in self.rules['DNS Server']:
-				for router_IP in self.rules['router']:
-					if(packet.source == self.rules['device'][0]) and ((packet.destination == domain_IP) or (packet.destination == DNS_IP) or (packet.destination == router_IP)):
-						return True
-					elif(packet.destination == self.rules['device'][0]) and ((packet.source == domain_IP) or (packet.source == DNS_IP) or (packet.source == router_IP)):
-						return True
+		if (packet.source == self.device_ip) and (packet.destination not in self.new_ip.keys()):
+			self.new_ip[packet.destination] = 1
+		elif (packet.source == self.device_ip) and (packet.destination in self.new_ip.keys()):
+			self.new_ip[packet.destination] = self.new_ip[packet.destination] + 1
+		elif (packet.destination == self.device_ip) and (packet.source not in self.new_ip.keys()):
+			self.new_ip[packet.source] = 1
+		elif (packet.destination == self.device_ip) and (packet.source in self.new_ip.keys()):
+			self.new_ip[packet.source] = self.new_ip[packet.source] + 1
+		
 		return False
 
 	def TLSv1_analyze(self,packet): 
-		for domain_IP in self.rules['domain']:
-			if(packet.source == self.rules['device'][0]) and (packet.destination == domain_IP) :
+		for domain_IP in self.domain_ip:
+			if(packet.source == self.device_ip) and (packet.destination == domain_IP) :
 				return True
-			elif(packet.source == domain_IP) and (packet.destination == self.rules['device'][0]) :
+			elif(packet.source == domain_IP) and (packet.destination == self.device_ip) :
+				return True
+		return False
+
+	def HTTP_analyze(self,packet):
+		for domain_IP in self.domain_ip:
+			if(packet.source == self.device_ip) and (packet.destination == domain_IP) :
+				return True
+			elif(packet.source == domain_IP) and (packet.destination == self.device_ip) :
 				return True
 		return False
 
@@ -65,41 +85,50 @@ class TrafficAnalysisEngine(object):
 	def traffic_analyze(self,packet):
 		prot = packet.protocol
 
-		if prot == "ARP":
-			return self.ARP_analyze(packet)
+		# if prot == "ARP":
+		# 	return self.ARP_analyze(packet)
 
-		elif prot == "UDP":
-			return self.UDP_analyze(packet)
+		# if prot == "UDP":
+		# 	return self.UDP_analyze(packet)
 
-		elif prot == "TCP": 
+		if prot == "TCP": 
 			return self.TCP_analyze(packet)
 
-		elif prot == "DNS": 
-			return self.DNS_analyze(packet)
+		# elif prot == "DNS": 
+		# 	return self.DNS_analyze(packet)
 
-		elif prot == "ICMP": 
-			return self.ICMP_analyze(packet)
+		# elif prot == "ICMP": 
+		# 	return self.ICMP_analyze(packet)
 
-		elif (prot == "TLSv1") or (prot == "TLSv1.1") : 
+		elif (prot == "TLSv1") or (prot == "TLSv1.1") or (prot == "TLSv1.2"): 
 			return self.TLSv1_analyze(packet)
 
+		elif prot == "HTTP": 
+			return self.HTTP_analyze(packet)
+		
 		else:
-			return False	
+			return True	
 
 
 	def run(self):
-        #main process of analysis engine
-        # f = open(self.devicename)
-        # rules = yaml.load(f) #load rules
+
 		cap = pyshark.FileCapture(self.filename,only_summaries=True)
-
+		i = j = 0
 		for p in cap:
-			print(p.no)
 			ret = self.traffic_analyze(p)
-
+			i = i+1
 			if not ret:
-				print("[Result] No security issues.")
-			else:
+			# 	print("[Result] No security issues.")
+			# else:
+				j = j+1
 				print("[Result] WARINING: Trojan has been discovered.")
+				print(p.no, p.protocol, p.source, p.destination,'\n')
+
+		print(j,"/",i,'\n')
+		print(self.domain_ip,'\n')
+		print(self.new_ip)
+
+		print(self.device_ip)
+
 
 
