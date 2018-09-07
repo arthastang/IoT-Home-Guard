@@ -9,7 +9,7 @@ For users the project can help to detect compromised smart home devices. For sec
 
 In July 2018 we had completed the first version. We will complete the second version by October 2018 with improvement of user experience and increased number of identifiable devices.
 
-The first generation is a hardware device based on Raspberry Pi with wireless network interface controllers. We will customize new hardware in the second generation. Software part is available in our Github. The system can be set up with software part in laptops after essential environment configuration. 
+The first generation is a hardware device based on Raspberry Pi with wireless network interface controllers. We will customize new hardware in the second generation. The system can be set up with software part in laptops after essential environment configuration. Software part is available in software_tools/. 
 
 ## Proof of principle
 
@@ -34,14 +34,14 @@ Baidu WiFi Translator | TUGE830 |
 Xiaomi Mijia driving recorder | ZNHSJ01BY |
 Netease Youdao smart translator | GTA07 |
 
-## Modules of IoT-Home-Guard
+## Modules
 
 1. AP module and Data flow catcher: Catch network traffic.
 2. Traffic analying engine: Extract characteristics from network traffic and compare them with device fingerprint database.
 3. Device fingerprint database: Normal network behaviors of each devices, based on whitelist. Call APIs of 360 threat intelligence database ([https://ti.360.net/](https://ti.360.net/)).
 4. Web server: There may be a web server in the second generation. 
 
-## Procedure of IoT-Home-Guard
+## Procedure
 
                                                ___________________       ___________________
                                               |                   |     |                   |
@@ -62,7 +62,16 @@ Netease Youdao smart translator | GTA07 |
 
 The tool works as an Access Point, connected manually by devices under test, sends network traffic to traffic analyzing engine for characteristic extraction. Traffic analyzing engine compares characteristics with entries in device fingerprint database to recognize device type and suspicious network connection. Device fingerprint database is a collect of normal behaviors of each device based on whitelist. Additionally, characteristics will be searched on threat intelligence database of Qihoo 360 to identify malicious behaviors. A web server is set up as user interfaces.
 
+## Effectiveness
+
+In our research, we have succcessfully implanted Trojans in eight devices including smart speakers, cameras, driving recorders and mobile translators with IoT-Implant-Toolkit.   
+  
+A demo video below:   
+![ImplantDemo.gif](resources/ImplantDemo.gif)  
+
+We collected characteristics of those devices and ran IoT-Home-Guard. All devices implanted Trojans have been detected. We believe that malicious behaviors of more devices can be identified with high accuracy after supplement of fingerprint database.   
+
 ## Tutorials of IoT-Home-Guard
 
-For a hardware tool, see IoT-Home-Guard/Hardware_tool/README.md  
-For a software tool, see IoT-Home-Guard/Software_tool/README.md
+For a hardware tool, see IoT-Home-Guard/hardware_tool/README.md    
+For a software tool, see IoT-Home-Guard/software_tools/README.md
