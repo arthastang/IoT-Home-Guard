@@ -1,6 +1,6 @@
 ---
-#xiaoaitongxue:192.168.42.16(*)
-#Router:192.168.42.1(/)
+#xiaoaitongxue:172.27.35.77(*)
+#Router:172.27.35.7(/)
 #Domain:(-)
 #DNS server:8.8.8.8  4.2.2.2 (!)
 
