@@ -22,18 +22,6 @@ Black line : Sum of TCP traffic.
 
 ![mi-listen&wakeup](resources/mi-listen&wakeup.png)
 
-## Supported Devices
-
-Device Name | Product Version |
-:---------: | :---------:|
-Xiaomi MINI smart speaker | LX01 |
-Amazon Echo v1 smart speaker | v1 |
-Amazon Echo v2 smart speaker | v2 |
-Xiaofang ip camera | iSC5 |
-Baidu WiFi Translator | TUGE830 |
-Xiaomi Mijia driving recorder | ZNHSJ01BY |
-Netease Youdao smart translator | GTA07 |
-
 ## Modules
 
 1. AP module and Data flow catcher: Catch network traffic.
