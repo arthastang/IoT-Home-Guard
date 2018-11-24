@@ -1,61 +1,25 @@
-# IoT-Home-Guard
 
-IoT-Home-Guard is a project to help people discover malware in home smart devices. It contains a software tool and a hardware tool.
+The tools use LINKSYS WRT AC1900 router ( Model NO. is WRT1900ACS V2) as a development platform (You can check if these software tools can be installed on your router at https://openwrt.org/toh/start.). Of course, you can also use the laptop directly as the operating environment for the tools. I chose router instead of laptop because the tool will be updated for a long time, it can help you detect more kinds of IoT devices in your home.
 
-If you find that your smart device in your home has strange behavior, or if you only suspect that a device has been implanted with a Trojan, you can use these tools to confirm.
+Before using these tools, you need to install the openwrt operating system by loading lede-17.01.5-mvebu-linksys-wrt1900acs-squashfs-sysupgrade.bin. When openwrt is installed and configured, you will need to place the IoT-Home-Guard project code in the router and connect the device to be detected to the router's wifi network. Please note that this route should be able to connect to the Internet.
 
-In July 2018 I had completed the first version of the software and hardware. I will complete the second version by October 2018, when the user experience and the number of identifiable devices will be greatly improved.
+You can use the following command to detect whether the target IoT device is implanted with a Trojan:
 
-## Proof of principle
+    ./IoT-Home-Guard.py
 
-Our approach is based on the detection of malicious network traffic. A device implanted malwares will communicate with remote server, trigger a remote shell or send audios/videos to server.
+The complete inspection process will last 10-15 minutes. If you want to get results faster, you can use the following command:
 
-The chart below shows the network traffic of a device implanted malwares.
-Red line : traffic between devices and a remote server.
-Green line : normal traffic of devices.
-Black line : Sum of TCP traffic.
+    ./IoT-Home-Guard.py fast_mode
 
-![mi-listen&wakeup](resources/mi-listen&wakeup.png)
+When the program finishes running, it will return the following results:
 
-## Supported Devices
+    [Result] WARINING: Trojan has been discovered.
+    [Trojan Data]: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-Device Name | Product Version |
-:---------: | :---------:|
-Xiaomi MINI smart speaker | LX01 |
-Amazon Echo v1 smart speaker | v1 |
-Amazon Echo v2 smart speaker | v2 |
-Xiaofang ip camera | iSC5 |
-Baidu WiFi Translator | TUGE830 |
-Xiaomi Mijia driving recorder | ZNHSJ01BY |
-Netease Youdao smart translator | GTA07 |
+or:
 
-## Modules of IoT-Home-Guard
+    [Result] No security issues.
+  
+or:
 
-1. AP module and Data flow catcher: Catch network traffic.
-2. Traffic analying engine: Extract characteristics from network traffic and compare them with device fingerprint database.
-3. Device fingerprint database: Normal network behaviors of each devices, based on whitelist. Call APIs of 360 threat intelligence database ([https://ti.360.net/](https://ti.360.net/)).
-4. Web server: There may be a web server in the second generation. 
-
-## Procedure of IoT-Home-Guard
-
-                                               ___________________       ___________________
-                                              |                   |     |                   |
-                                              | data_flow_catcher |<----| devices connected |
-                                              |___________________|     |___________________|
-                                                   ¦
-                                                   ¦
-     ____________________________              ____↓________________  
-    |                            |            |                     |
-    | device_fingerprint_databse |<---------> | flow_analyze_engine |
-    |____________________________|       ¦    |_____________________|
-                                         ¦         ↑
-                                         ¦         ¦
-     __________________________________  ¦     ____↓_______              _________________
-    |                                  | ¦    |            |            |                 |
-    | 360 threat intelligence database |<-    | web_server |<-----------| user interfaces |
-    |__________________________________|      |____________|            |_________________|
-
-## Tutorials of IoT-Home-Guard
-
-For a hardware tool, see IoT-Home-Guard/Hardware_tool/README.md
-For a software tool, see IoT-Home-Guard/Software_tool/README.md
+    [Result] I don't know this device, you can send this packet to luodalongde#gmail.com
