@@ -12,4 +12,12 @@ to setup the webserver,run:
 
     ./homeguard
     
-webserver will run on 8080 port
+webserver will run on 8080 port.   
+
+Demo:
+
+![server1](../resources/server1.png)
+
+
+![server2](../resources/server2.png)
+
