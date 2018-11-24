@@ -1,0 +1,66 @@
+---
+#xiaoaitongxue:192.168.42.16(*)
+#Router:192.168.42.1(/)
+#Domain:(-)
+#DNS server:8.8.8.8  4.2.2.2 (!)
+
+device: #(*)
+    - 172.27.35.73
+
+domain: #(-)
+    #speech.ai.xiaomi.com
+    - 118.26.252.34
+    - 183.84.5.205
+    - 203.100.92.169
+    - 58.83.5.62
+    - 183.84.5.62
+    - 58.83.177.192
+    #xioami.dtwscache.ourwebcdn.com
+    - 123.183.166.204
+    - 59.49.89.75
+    #d3cajjoh3a1m9n.cloudfront.net
+    - 143.204.247.124
+    - 143.204.247.55
+    - 143.204.247.8
+    - 143.204.247.95
+    #router
+    # 172.27.35.7
+    - 172.27.35.73
+
+router: #(/)
+    - 172.27.35.7
+
+DNS Server: #(!)
+    - 8.8.8.8
+    - 4.2.2.2
+    
+packet:
+    - protocol: ARP
+      MAC: 7c:49:eb:72:5f:44
+
+    - protocol: UDP
+      src_IP: "*"
+      dst_IP: 239.255.255.123
+      src_port: 10010
+      dst_port: 10010
+
+    - protocol: UDP
+      IP: 120.131.8.235
+      port: 8053
+    
+    - protocol: TCP
+      IP: "-"
+      port: 443
+      
+    - protocol: DNS
+      IP: "!"
+      port: 53
+
+    - protocol: ICMP
+      IP1: "-"
+      IP2: "!"
+      IP3: "/"
+       
+    - protocol: TLSv1
+      IP: "-"
+      port: 443

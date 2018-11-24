@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: IoT-Home-Guard
+Version: 1.0
+Summary: A tool for malicious behavior detection in IoT devices.
+Home-page: ['https://github.com/yaml', 'https://github.com/lxml/lxml']
+Author: Demesne
+Author-email: demesne0.0@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.6

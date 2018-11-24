@@ -1,6 +1,0 @@
-python >= 3.6
-pyshark >= 0.4.1
-yaml >=
-
-tcpdump >= 4.9.2
- 
