@@ -20,7 +20,7 @@ class TrafficAnalysisEngine(object):
 		self.device_name = device_name
 		f = open(self.devicename)
 		self.rules = yaml.load(f)
-		self.device_ip = '172.27.35.73'
+		#self.device_ip = '172.27.35.73'
 		self.DNS_server_ip = ['4.2.2.2','8.8.8.8']
 		self.domain_ip = []
 		self.domain_ip.append(self.rules['domain'])
@@ -57,26 +57,22 @@ class TrafficAnalysisEngine(object):
 			return False
 
 	def TCP_analyze(self,packet):
-		if(packet.destination == '172.27.35.7'):
-			return True
-		else:
-			return False
-		#for domain_IP in self.domain_ip:
-		#	if(packet.source == self.device_ip) and (packet.destination == domain_IP) :
-		#		return True
-		#	if(packet.source == domain_IP) and (packet.destination == self.device_ip) :
-		#		return True
+		for domain_IP in self.domain_ip:
+			if(packet.source == self.device_ip) and (packet.destination == domain_IP) :
+				return True
+			if(packet.source == domain_IP) and (packet.destination == self.device_ip) :
+				return True
 
-		#if (packet.source == self.device_ip) and (packet.destination not in self.new_ip.keys()):
-		#	self.new_ip[packet.destination] = 1
-		#elif (packet.source == self.device_ip) and (packet.destination in self.new_ip.keys()):
-		#	self.new_ip[packet.destination] = self.new_ip[packet.destination] + 1
-		#elif (packet.destination == self.device_ip) and (packet.source not in self.new_ip.keys()):
-		#	self.new_ip[packet.source] = 1
-		#elif (packet.destination == self.device_ip) and (packet.source in self.new_ip.keys()):
-		#	self.new_ip[packet.source] = self.new_ip[packet.source] + 1
+		if (packet.source == self.device_ip) and (packet.destination not in self.new_ip.keys()):
+			self.new_ip[packet.destination] = 1
+		elif (packet.source == self.device_ip) and (packet.destination in self.new_ip.keys()):
+			self.new_ip[packet.destination] = self.new_ip[packet.destination] + 1
+		elif (packet.destination == self.device_ip) and (packet.source not in self.new_ip.keys()):
+			self.new_ip[packet.source] = 1
+		elif (packet.destination == self.device_ip) and (packet.source in self.new_ip.keys()):
+			self.new_ip[packet.source] = self.new_ip[packet.source] + 1
 		
-		#return False
+		return False
 
 	def TLSv1_analyze(self,packet): 
 		for domain_IP in self.domain_ip:
@@ -147,7 +143,6 @@ class TrafficAnalysisEngine(object):
 				resultdict['dev']=self.device_name
 				resultdict['time']=ttime
 				resultdict['num']=p.no
-				p.destination = '172.27.35.73'
 				resultdict['des']=p.destination
 				resultdict['protocol']=p.protocol
 				resultdict['hash']=hash.hexdigest()
