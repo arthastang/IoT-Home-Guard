@@ -1,25 +1,77 @@
-The tools use LINKSYS WRT AC1900 router ( Model NO. is WRT1900ACS V2) as a development platform (You can check if these software tools can be installed on your router at https://openwrt.org/toh/start.). Of course, you can also use the laptop directly as the operating environment for the tools. I chose router instead of laptop because the tool will be updated for a long time, it can help you detect more kinds of IoT devices in your home.
+![py3.6](https://img.shields.io/badge/python-3.6-blue.svg)
+![MIT](https://img.shields.io/github/license/mashape/apistatus.svg)
 
-Before using these tools, you need to install the openwrt operating system by loading lede-17.01.5-mvebu-linksys-wrt1900acs-squashfs-sysupgrade.bin. When openwrt is installed and configured, you will need to place the IoT-Home-Guard project code in the router and connect the device to be detected to the router's wifi network. Please note that this route should be able to connect to the Internet.
+# IoT-Home-Guard
 
-You can use the following command to detect whether the target IoT device is implanted with a Trojan:
+IoT-Home-Guard is a project to help people discover malware in smart home devices.
 
-    ./IoT-Home-Guard.py
+For users the project can help to detect compromised smart home devices. For security researchers it is also useful in network analysis and malicious hehaviors detection. 
 
-The complete inspection process will last 10-15 minutes. If you want to get results faster, you can use the following command:
+In July 2018 we had completed the first version. We will complete the second version by October 2018 with improvement of user experience and increased number of identifiable devices.
 
-    ./IoT-Home-Guard.py fast_mode
+The first generation is a hardware device based on Raspberry Pi with wireless network interface controllers. We will customize new hardware in the second generation. The system can be set up with software part in laptops after essential environment configuration. Software part is available in software_tools/. 
 
-When the program finishes running, it will return the following results:
+## Proof of principle
 
-    [Result] WARINING: Trojan has been discovered.
-    [Trojan Data]: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Our approach is based on the detection of malicious network traffic. A device implanted malwares will communicate with remote server, trigger a remote shell or send audios/videos to server.
 
-or:
+The chart below shows the network traffic of a device which implanted snooping malwares.  
+Red line : traffic between devices and a remote spy server.  
+Green line : normal traffic of devices.  
+Black line : Sum of TCP traffic.  
 
-    [Result] No security issues.
+![mi-listen&wakeup](resources/mi-listen&wakeup.png)
+
+## Supported Devices
+
+Device Name | Product Version |
+:---------: | :---------:|
+Xiaomi MINI smart speaker | LX01 |
+Amazon Echo v1 smart speaker | v1 |
+Amazon Echo v2 smart speaker | v2 |
+Xiaofang ip camera | iSC5 |
+Baidu WiFi Translator | TUGE830 |
+Xiaomi Mijia driving recorder | ZNHSJ01BY |
+Netease Youdao smart translator | GTA07 |
+
+## Modules
+
+1. AP module and Data flow catcher: Catch network traffic.
+2. Traffic analying engine: Extract characteristics from network traffic and compare them with device fingerprint database.
+3. Device fingerprint database: Normal network behaviors of each devices, based on whitelist. Call APIs of 360 threat intelligence database ([https://ti.360.net/](https://ti.360.net/)).
+4. Web server: There may be a web server in the second generation. 
+
+## Procedure
+
+                                               ___________________       ___________________
+                                              |                   |     |                   |
+                                              | data_flow_catcher |<----| devices connected |
+                                              |___________________|     |___________________|
+                                                   ¦
+                                                   ¦
+     ____________________________              ____↓________________  
+    |                            |            |                     |
+    | device_fingerprint_databse |<---------> | flow_analyze_engine |
+    |____________________________|       ¦    |_____________________|
+                                         ¦         ↑
+                                         ¦         ¦
+     __________________________________  ¦     ____↓_______              _________________
+    |                                  | ¦    |            |            |                 |
+    | 360 threat intelligence database |<-    | web_server |<-----------| user interfaces |
+    |__________________________________|      |____________|            |_________________|
+
+The tool works as an Access Point, connected manually by devices under test, sends network traffic to traffic analyzing engine for characteristic extraction. Traffic analyzing engine compares characteristics with entries in device fingerprint database to recognize device type and suspicious network connection. Device fingerprint database is a collect of normal behaviors of each device based on whitelist. Additionally, characteristics will be searched on threat intelligence database of Qihoo 360 to identify malicious behaviors. A web server is set up as user interfaces.
+
+## Effectiveness
+
+In our research, we have succcessfully implanted Trojans in eight devices including smart speakers, cameras, driving recorders and mobile translators with IoT-Implant-Toolkit.   
   
-or:
+A demo video below:   
+![ImplantDemo.gif](resources/ImplantDemo.gif)  
 
-    [Result] I don't know this device, you can send this packet to luodalongde#gmail.com
+We collected characteristics of those devices and ran IoT-Home-Guard. All devices implanted Trojans have been detected. We believe that malicious behaviors of more devices can be identified with high accuracy after supplement of fingerprint database.   
 
+## Tutorials of IoT-Home-Guard
+
+For a hardware tool, see IoT-Home-Guard/hardware_tool/README.md    
+For a software tool, see IoT-Home-Guard/software_tools/README.md
